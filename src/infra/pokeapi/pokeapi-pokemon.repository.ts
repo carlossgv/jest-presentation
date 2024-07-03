@@ -16,6 +16,11 @@ export default class PokeApiPokemonRepository implements IPokemonRepository {
     const evolutionChainUrl = speciesData.data.evolution_chain.url;
     const response = await axios.get<PokeApiEvolutionChain>(evolutionChainUrl);
 
+    if (!response.data.chain) {
+      throw new Error("No evolution chain found");
+    }
+    
+
     return this.getEvolutionsFromChain(response.data.chain);
   }
 
