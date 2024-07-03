@@ -2,7 +2,7 @@ import axios from "axios";
 import Pokemon from "../../core/entities/pokemon.entity";
 import IPokemonRepository from "../../core/interfaces/pokemon.interface";
 import PokeApiSpecies from "./pokeapi-species.type";
-import PokeApiEvolutionChain from "./pokeapi-evolution-chain.type";
+import { PokeApiChainLink, PokeApiEvolutionChain } from "./pokeapi-evolution-chain.type";
 import PokeApiPokemon from "./pokeapi-pokemon.type";
 
 export default class PokeApiPokemonRepository implements IPokemonRepository {
@@ -13,8 +13,12 @@ export default class PokeApiPokemonRepository implements IPokemonRepository {
     const evolutionChainUrl = speciesData.data.evolution_chain.url;
     const response = await axios.get<PokeApiEvolutionChain>(evolutionChainUrl);
 
+    return this.getEvolutionsFromChain(response.data.chain);
+  }
+
+  private getEvolutionsFromChain(chain: PokeApiChainLink): string[] {
     const evolutions = [];
-    let currentChainLink = response.data.chain;
+    let currentChainLink = chain;
     while (currentChainLink) {
       evolutions.push(currentChainLink.species.name);
       currentChainLink = currentChainLink.evolves_to[0];
