@@ -2,7 +2,10 @@ import axios from "axios";
 import Pokemon from "../../core/entities/pokemon.entity";
 import IPokemonRepository from "../../core/interfaces/pokemon.interface";
 import PokeApiSpecies from "./pokeapi-species.type";
-import { PokeApiChainLink, PokeApiEvolutionChain } from "./pokeapi-evolution-chain.type";
+import {
+  PokeApiChainLink,
+  PokeApiEvolutionChain,
+} from "./pokeapi-evolution-chain.type";
 import PokeApiPokemon from "./pokeapi-pokemon.type";
 
 export default class PokeApiPokemonRepository implements IPokemonRepository {
@@ -30,6 +33,7 @@ export default class PokeApiPokemonRepository implements IPokemonRepository {
   async getPokemon(name: string): Promise<Pokemon> {
     const url = `https://pokeapi.co/api/v2/pokemon/${name}`;
     const pokemonData = await axios.get<PokeApiPokemon>(url);
+    console.debug(pokemonData);
 
     return new Pokemon(
       pokemonData.data.name,
