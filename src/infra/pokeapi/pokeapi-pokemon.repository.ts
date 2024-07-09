@@ -19,7 +19,6 @@ export default class PokeApiPokemonRepository implements IPokemonRepository {
     if (!response.data.chain) {
       throw new Error("No evolution chain found");
     }
-    
 
     return this.getEvolutionsFromChain(response.data.chain);
   }
@@ -38,7 +37,6 @@ export default class PokeApiPokemonRepository implements IPokemonRepository {
   async getPokemon(name: string): Promise<Pokemon> {
     const url = `https://pokeapi.co/api/v2/pokemon/${name}`;
     const pokemonData = await axios.get<PokeApiPokemon>(url);
-    console.debug(pokemonData);
 
     return new Pokemon(
       pokemonData.data.name,

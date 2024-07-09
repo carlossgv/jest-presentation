@@ -6,6 +6,5 @@ export default class GetPokemonUseCase {
 
   async execute(name: string): Promise<Pokemon> {
    return await this.pokemonRepository.getPokemon(name);
-    
   }
 }
