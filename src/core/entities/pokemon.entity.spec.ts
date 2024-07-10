@@ -8,12 +8,9 @@ describe("Pokemon", () => {
       expect(pokemon["name"]).toBe("pikachu");
       expect(pokemon["types"]).toEqual(["electric"]);
     });
-
-
   });
 
-    describe("getData", () => {
-
+  describe("getData", () => {
     it.each([
       {
         name: "pikachu",
@@ -37,6 +34,5 @@ describe("Pokemon", () => {
         expect(pokemon.getData()).toBe(expected);
       },
     );
-
-    })
+  });
 });
