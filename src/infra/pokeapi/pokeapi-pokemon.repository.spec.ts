@@ -10,6 +10,7 @@ describe("PokeApiPokemonRepository", () => {
     repository = new PokeApiPokemonRepository();
   });
   afterEach(() => {
+    // TODO: check differences between jest.clear, restore, reset
     jest.restoreAllMocks();
   });
 
@@ -47,7 +48,9 @@ describe("PokeApiPokemonRepository", () => {
 
       // llamadas getEvolutionsFromChain
       expect(repository["getEvolutionsFromChain"]).toHaveBeenCalledTimes(1);
-      expect(repository["getEvolutionsFromChain"]).toHaveBeenCalledWith("algo2")
+      expect(repository["getEvolutionsFromChain"]).toHaveBeenCalledWith(
+        "algo2",
+      );
     });
 
     test.todo("should throw an error if no chain is found");
