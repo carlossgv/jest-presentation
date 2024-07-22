@@ -13,10 +13,13 @@ export default class PokeApiPokemonRepository implements IPokemonRepository {
     const speciesUrl = `https://pokeapi.co/api/v2/pokemon-species/${name}`;
     const speciesData = await axios.get<PokeApiSpecies>(speciesUrl);
 
+    // Este error no se va a revisar
+
     const evolutionChainUrl = speciesData.data.evolution_chain.url;
     const response = await axios.get<PokeApiEvolutionChain>(evolutionChainUrl);
 
     if (!response.data.chain) {
+      console.debug("Entering error");
       throw new Error("No evolution chain found");
     }
 

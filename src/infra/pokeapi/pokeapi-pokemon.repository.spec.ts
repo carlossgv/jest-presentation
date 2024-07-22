@@ -10,11 +10,56 @@ describe("PokeApiPokemonRepository", () => {
     repository = new PokeApiPokemonRepository();
   });
   afterEach(() => {
-    // TODO: check differences between jest.clear, restore, reset
-    jest.restoreAllMocks();
+    // Clear >> Reset >> Restore
+    jest.resetAllMocks();
   });
 
   describe("getEvolutionsFromChain", () => {
+    it("should throw and error if no chain is found - regular way", () => {
+      // Arrange
+      axiosMock.get.mockResolvedValueOnce({
+        data: {
+          evolution_chain: {
+            url: "algo1",
+          },
+        },
+      });
+      axiosMock.get.mockResolvedValue({
+        data: {},
+      });
+
+      // Action
+      const act = async () => repository.getPokemonEvolutionChain("nombre");
+
+      // Assert
+      expect(act).rejects.toThrow("No evolution chain found");
+    });
+
+    it("should throw and error if no chain is found - async await way", async () => {
+      // Arrange
+      axiosMock.get.mockResolvedValueOnce({
+        data: {
+          evolution_chain: {
+            url: "algo1",
+          },
+        },
+      });
+      axiosMock.get.mockResolvedValue({
+        data: {},
+      });
+
+      try {
+        // Action
+        await repository.getPokemonEvolutionChain("nombre");
+      } catch (error) {
+        // Assert
+        expect(error).toEqual(new Error("No evolution chain found"));
+        expect(error.message).toBe("No evolution chain found");
+      }
+
+      expect.assertions(2);
+    });
+
     it("should return an array with the names of the species in the chain", async () => {
       axiosMock.get.mockResolvedValueOnce({
         data: {
@@ -38,7 +83,7 @@ describe("PokeApiPokemonRepository", () => {
       // respuesta del metodo
       expect(response).toBe("algo3");
 
-      // llamadas de axio
+      // llamadas de axios
       expect(axiosMock.get).toHaveBeenCalledTimes(2);
       expect(axiosMock.get).toHaveBeenNthCalledWith(
         1,
@@ -53,7 +98,6 @@ describe("PokeApiPokemonRepository", () => {
       );
     });
 
-    test.todo("should throw an error if no chain is found");
   });
 
   test.todo("getPokemon");

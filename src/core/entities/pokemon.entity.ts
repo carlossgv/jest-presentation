@@ -9,6 +9,8 @@ export default class Pokemon {
   getData() {
     const upperCaseName =
       this.name.charAt(0).toUpperCase() + this.name.slice(1);
+    console.log("getData");
+    console.log(upperCaseName);
     return `${upperCaseName} - Type(s): ${this.types.join(", ")}`;
   }
 }
